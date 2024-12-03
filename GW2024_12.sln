@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeDexSystemWPF", "PokeDexSystemWPF\PokeDexSystemWPF.csproj", "{198C68A5-6C9D-4911-917A-E20AA2CC91C2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Zikken", "Zikken", "{E9C4C204-AEA9-43CE-AA84-06718C7DE6BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zikken", "Zikken\Zikken.csproj", "{009333D7-1196-43A1-9F89-B0411DBB2A03}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{198C68A5-6C9D-4911-917A-E20AA2CC91C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{198C68A5-6C9D-4911-917A-E20AA2CC91C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{198C68A5-6C9D-4911-917A-E20AA2CC91C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{198C68A5-6C9D-4911-917A-E20AA2CC91C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{009333D7-1196-43A1-9F89-B0411DBB2A03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{009333D7-1196-43A1-9F89-B0411DBB2A03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{009333D7-1196-43A1-9F89-B0411DBB2A03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{009333D7-1196-43A1-9F89-B0411DBB2A03}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{009333D7-1196-43A1-9F89-B0411DBB2A03} = {E9C4C204-AEA9-43CE-AA84-06718C7DE6BA}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE2678FC-E103-43D8-8C54-D7C235CD879E}
+	EndGlobalSection
+EndGlobal
