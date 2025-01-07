@@ -4,11 +4,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
-using static System.Net.WebRequestMethods;
-
+using System.Windows.Media.Imaging;
 
 namespace PokemonGoApp {
     public partial class MainWindow : Window {
@@ -23,10 +19,9 @@ namespace PokemonGoApp {
                 string jsonData = await GetPokemonDataAsync(apiUrl);
                 List<Pokemon> pokemons = ParsePokemonData(jsonData);
 
-                // dexNrでソートしてリストボックスに表示
+                // dexNrでソートしてデータグリッドに表示
                 pokemons.Sort((p1, p2) => p1.DexNr.CompareTo(p2.DexNr));
-                PokemonListBox.ItemsSource = pokemons;
-                PokemonListBox.DisplayMemberPath = "JapaneseName";
+                PokemonDataGrid.ItemsSource = pokemons;
             } catch(HttpRequestException httpEx) {
                 MessageBox.Show(httpEx.Message);
             } catch(TaskCanceledException tcEx) {
@@ -36,21 +31,18 @@ namespace PokemonGoApp {
             }
         }
 
-
         public async Task<string> GetPokemonDataAsync(string apiUrl) {
             using(HttpClient client = new HttpClient()) {
                 client.Timeout = TimeSpan.FromSeconds(30); // タイムアウトを30秒に設定
 
-                for(int i = 0; i < 3; i++) // 最大3回までリトライ
-                {
+                for(int i = 0; i < 3; i++) {
                     try {
                         HttpResponseMessage response = await client.GetAsync(apiUrl);
                         response.EnsureSuccessStatusCode();
                         string responseData = await response.Content.ReadAsStringAsync();
                         return responseData;
                     } catch(TaskCanceledException ex) when(ex.InnerException is TimeoutException) {
-                        // 短い遅延を追加してから再試行
-                        await Task.Delay(TimeSpan.FromSeconds(2));
+                        await Task.Delay(TimeSpan.FromSeconds(5)); // 5秒の遅延
                     }
                 }
 
@@ -58,19 +50,46 @@ namespace PokemonGoApp {
             }
         }
 
-
         public List<Pokemon> ParsePokemonData(string jsonData) {
             List<PokemonData> pokemonData = JsonConvert.DeserializeObject<List<PokemonData>>(jsonData);
             List<Pokemon> pokemons = new List<Pokemon>();
 
+            string defaultImagePath = "https://png.pngtree.com/png-clipart/20200731/ourlarge/pngtree-cartoon-sign-sign-simple-illustration-cute-image-red-and-white-slash-png-image_2317707.jpg";
+
             foreach(var data in pokemonData) {
                 pokemons.Add(new Pokemon {
                     DexNr = data.DexNr,
-                    JapaneseName = data.Names.Japanese
+                    JapaneseName = data.Names.Japanese,
+                    EnglishName = data.Names.English,
+                    Types = FormatTypes(data.PrimaryType, data.SecondaryType),
+                    Stats = FormatStats(data.Stats),
+                    iconImage = GetImage(string.IsNullOrEmpty(data.Assets?.Image) ? defaultImagePath : data.Assets.Image),
+                    iconShinyImage = GetImage(string.IsNullOrEmpty(data.Assets?.ShinyImage) ? defaultImagePath : data.Assets.ShinyImage)
                 });
             }
 
             return pokemons;
+        }
+
+        private string FormatTypes(Type primaryType, Type secondaryType) {
+            string primary = primaryType != null && primaryType.Names != null ? $"タイプ１:{primaryType.Names.Japanese}" : "タイプ１:(なし)";
+            string secondary = secondaryType != null && secondaryType.Names != null ? $"タイプ２:{secondaryType.Names.Japanese}" : "タイプ２:(なし)";
+            return $"{primary}\n{secondary}";
+        }
+
+        private string FormatStats(Stats stats) {
+            if(stats == null) {
+                return $"ステータス情報なし\nステータス情報なし\nステータス情報なし";
+            }
+            return $"HP:{stats.Stamina}\nこうげき:{stats.Attack}\nぼうぎょ:{stats.Defense}";
+        }
+
+        private BitmapImage GetImage(string url) {
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri(url, UriKind.Absolute);
+            image.EndInit();
+            return image;
         }
     }
 }
