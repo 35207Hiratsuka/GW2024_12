@@ -1,27 +1,48 @@
 ﻿<Window x:Class="PokemonGoApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Pokémon Names" Height="350" Width="800">
-
+        Title="Pokémon Names" Height="500" Width="1000">
     <Grid>
-        <DataGrid x:Name="PokemonDataGrid" AutoGenerateColumns="False">
+        <DataGrid x:Name="PokemonDataGrid" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="番号" Binding="{Binding DexNr}" Width="*"/>
-                <DataGridTextColumn Header="ポケモン名" Binding="{Binding JapaneseName}" Width="*"/>
-                <DataGridTextColumn Header="英名" Binding="{Binding EnglishName}" Width="*"/>
-                <DataGridTextColumn Header="タイプ" Binding="{Binding Types}" Width="*"/>
-                <DataGridTextColumn Header="種族値" Binding="{Binding Stats}" Width="*"/>
-                <DataGridTemplateColumn Header="写真" Width="*">
+                <DataGridTextColumn Header="番号" Binding="{Binding DexNr}" Width="0.5*"/>
+                <DataGridTextColumn Header="ポケモン名(Japanese)" Binding="{Binding JapaneseName}" Width="*"/>
+                <DataGridTextColumn Header="ポケモン名(English)" Binding="{Binding EnglishName}" Width="*"/>
+                <DataGridTextColumn Header="タイプ" Binding="{Binding Types}" Width="0.7*"/>
+                <DataGridTextColumn Header="種族値" Binding="{Binding Stats}" Width="0.7*"/>
+                <DataGridTemplateColumn Header="写真" Width="0.7*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding iconImage}" Width="50" Height="50"/>
+                            <Image Source="{Binding iconImage, IsAsync=True}" Width="50" Height="50"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="写真(色違い)" Width="*">
+                <DataGridTemplateColumn Header="写真(色違い)" Width="0.7*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding iconShinyImage}" Width="50" Height="50"/>
+                            <Image Source="{Binding iconShinyImage, IsAsync=True}" Width="50" Height="50"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="ノーマルアタック" Width="1.5*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding NormalAttack}" Foreground="Black"/>
+                                <LineBreak/>
+                                <Run Text="{Binding EliteNormalAttack}" Foreground="Red"/>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="スペシャルアタック" Width="1.5*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding SpecialAttack}" Foreground="Black"/>
+                                <LineBreak/>
+                                <Run Text="{Binding EliteSpecialAttack}" Foreground="Red"/>
+                            </TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

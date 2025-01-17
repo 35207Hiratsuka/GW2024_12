@@ -1,4 +1,8 @@
-﻿using System.Windows.Media.Imaging;
+﻿//Pokemon.cs
+using System.Collections.Generic;
+using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
+using static PokemonGoApp.MainWindow;
 
 namespace PokemonGoApp {
     public class Pokemon {
@@ -23,7 +27,20 @@ namespace PokemonGoApp {
         public BitmapImage iconShinyImage {
             get; set;
         }
+        public string NormalAttack {
+            get; set;
+        }
+        public string EliteNormalAttack {
+            get; set;
+        }
+        public string SpecialAttack {
+            get; set;
+        }
+        public string EliteSpecialAttack {
+            get; set;
+        }
     }
+
 
     public class PokemonData {
         public string Id {
@@ -53,7 +70,22 @@ namespace PokemonGoApp {
         public Assets Assets {
             get; set;
         }
+        public Dictionary<string, Move> QuickMoves {
+            get; set;
+        }
+        [JsonConverter(typeof(EliteMovesConverter))]
+        public Dictionary<string, Move> EliteQuickMoves {
+            get; set;
+        }
+        public Dictionary<string, Move> CinematicMoves {
+            get; set;
+        } // 追加
+        [JsonConverter(typeof(EliteMovesConverter))] // CinematicMovesと同じ形式で変換
+        public Dictionary<string, Move> EliteCinematicMoves {
+            get; set;
+        } // 追加
     }
+
 
     public class Names {
         public string Japanese {
@@ -87,6 +119,27 @@ namespace PokemonGoApp {
             get; set;
         }
         public string ShinyImage {
+            get; set;
+        }
+    }
+
+    public class Move {
+        public string Id {
+            get; set;
+        }
+        public int Power {
+            get; set;
+        }
+        public int Energy {
+            get; set;
+        }
+        public int DurationMs {
+            get; set;
+        }
+        public Type Type {
+            get; set;
+        }
+        public Names Names {
             get; set;
         }
     }
